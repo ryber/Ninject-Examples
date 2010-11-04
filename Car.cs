@@ -1,7 +1,7 @@
 using System;
 using Ninject;
 
-namespace WindsorTests
+namespace NinjectExamples
 {
 	public class Car : ICar
 	{

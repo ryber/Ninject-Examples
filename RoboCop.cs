@@ -2,7 +2,7 @@ using System;
 using Ninject;
 using Ninject.Activation;
 
-namespace WindsorTests
+namespace NinjectExamples
 {
 	public class RoboCop
 	{

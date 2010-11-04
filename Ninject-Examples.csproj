@@ -8,8 +8,8 @@
     <ProjectGuid>{02D260F4-7AB2-4265-99F6-A16A8D692E5B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WindsorTests</RootNamespace>
-    <AssemblyName>WindsorTests</AssemblyName>
+    <RootNamespace>NinjectExamples</RootNamespace>
+    <AssemblyName>NinjectExamples</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,19 +33,19 @@
   <ItemGroup>
     <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Ninject.dll</HintPath>
+      <HintPath>Dependencies\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Maestro5\maestro\FrontEnd\Dependencies\nunit.core.dll</HintPath>
+      <HintPath>Dependencies\nunit.core.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core.interfaces, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Maestro5\maestro\FrontEnd\Dependencies\nunit.core.interfaces.dll</HintPath>
+      <HintPath>Dependencies\nunit.core.interfaces.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Maestro5\maestro\FrontEnd\Dependencies\nunit.framework.dll</HintPath>
+      <HintPath>Dependencies\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
-    <Compile Include="Ninject\NinjectTests.cs" />
+    <Compile Include="NinjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoboCop.cs" />
   </ItemGroup>

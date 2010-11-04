@@ -3,7 +3,7 @@ using Ninject.Parameters;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace WindsorTests.Ninject
+namespace NinjectExamples
 {
 	[TestFixture]
 	public class NinjectTests
