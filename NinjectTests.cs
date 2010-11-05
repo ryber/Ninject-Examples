@@ -18,24 +18,18 @@ namespace NinjectExamples
 		}
 
 		[Test]
-		public void StartUpTimeIsFast()
-		{
-			//"No need for universal registration. Only for injected items (not the injectee)s";
-		}
-
-		[Test]
 		public void ResolveBasicPropertyInjection()
 		{
-			var robocop = dojo.Get<RoboCop>();
-			Assert.That(robocop.Automobile, Is.Not.Null);
+			var murphy = dojo.Get<RoboCop>();
+			Assert.That(murphy.Automobile, Is.Not.Null);
 		}
 
 		[Test]
 		public void CanResoveForAlreadyCreatedObject()
 		{
-			var robo = new RoboCop();
-			dojo.Inject(robo);
-			Assert.That(robo.Automobile, Is.Not.Null);
+			var murphy = new RoboCop();
+			dojo.Inject(murphy);
+			Assert.That(murphy.Automobile, Is.Not.Null);
 		}
 
 		[Test]
@@ -48,17 +42,17 @@ namespace NinjectExamples
 		[Test]
 		public void CanInjectContructor()
 		{
-			var robocop = dojo.Get<CopShop>();
-			Assert.That(robocop.HasMurphy, Is.True);
-			Assert.That(robocop.HasAuto, Is.True);
+			var copShop = dojo.Get<CopShop>();
+			Assert.That(copShop.HasMurphy, Is.True);
+			Assert.That(copShop.HasAuto, Is.True);
 		}
 
 		[Test]
 		public void CanInjectContructorWithOtherImplimentationsRegistered()
 		{
-			var robocop = dojo.Get<DoughnutShop>();
-			Assert.That(robocop.HasMurphy, Is.True);
-			Assert.That(robocop.HasAuto, Is.True);
+			var doughnutShop = dojo.Get<DoughnutShop>();
+			Assert.That(doughnutShop.HasMurphy, Is.True);
+			Assert.That(doughnutShop.HasAuto, Is.True);
 		}
 
 		[Test]
