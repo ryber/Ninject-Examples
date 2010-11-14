@@ -18,9 +18,13 @@ namespace NinjectExamples
 		public bool HasAmmo { get; set; }
 	}
 
-	public class Ammo{}
+	public class Ammo : IAmmo{}
 
-	public class CopShop
+    public interface IAmmo
+    {
+    }
+
+    public class CopShop
 	{
 		private ICar car;
 		public bool HasMurphy { get; set; }
