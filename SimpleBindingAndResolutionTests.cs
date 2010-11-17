@@ -6,21 +6,21 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
 	[TestFixture]
-	public class NinjectTests
+	public class SimpleBindingAndResolutionTests
 	{
-		private IKernel dojo;
+		private IKernel _dojo;
 
 		[TestFixtureSetUp]
 		public void StartUp()
 		{
-			dojo = new StandardKernel();
-			dojo.Bind<ICar>().To<Car>();
+			_dojo = new StandardKernel();
+			_dojo.Bind<ICar>().To<Car>();
 		}
 
 		[Test]
 		public void ResolveBasicPropertyInjection()
 		{
-			var murphy = dojo.Get<RoboCop>();
+			var murphy = _dojo.Get<RoboCop>();
 			Assert.That(murphy.Automobile, Is.Not.Null);
 		}
 
@@ -28,21 +28,21 @@ namespace NinjectExamples
 		public void CanResoveForAlreadyCreatedObject()
 		{
 			var murphy = new RoboCop();
-			dojo.Inject(murphy);
+			_dojo.Inject(murphy);
 			Assert.That(murphy.Automobile, Is.Not.Null);
 		}
 
 		[Test]
 		public void CanResolveChains()
 		{
-			var murphy = dojo.Get<RoboCop>();
+			var murphy = _dojo.Get<RoboCop>();
 			Assert.That(murphy.Automobile.Engine.Name, Is.EqualTo("V8"));
 		}
 
 		[Test]
 		public void CanInjectContructor()
 		{
-			var copShop = dojo.Get<CopShop>();
+			var copShop = _dojo.Get<CopShop>();
 			Assert.That(copShop.HasMurphy, Is.True);
 			Assert.That(copShop.HasAuto, Is.True);
 		}
@@ -50,7 +50,7 @@ namespace NinjectExamples
 		[Test]
 		public void CanInjectContructorWithOtherImplimentationsRegistered()
 		{
-			var doughnutShop = dojo.Get<DoughnutShop>();
+			var doughnutShop = _dojo.Get<DoughnutShop>();
 			Assert.That(doughnutShop.HasMurphy, Is.True);
 			Assert.That(doughnutShop.HasAuto, Is.True);
 		}
@@ -58,7 +58,7 @@ namespace NinjectExamples
 		[Test]
 		public void InjectMethod()
 		{
-			var murphy = dojo.Get<RoboCop>();
+			var murphy = _dojo.Get<RoboCop>();
 			Assert.That(murphy.HasAmmo, Is.True);
 		}
 
@@ -66,7 +66,7 @@ namespace NinjectExamples
 		public void CanInjectASpecificInstanceIntoConstructor()
 		{
 			var truck = new Truck();
-			var copShop = dojo.Get<CopShop>(new ConstructorArgument("auto", truck));
+			var copShop = _dojo.Get<CopShop>(new ConstructorArgument("auto", truck));
 
 			Assert.That(copShop.GetCar(), Is.EqualTo(truck));
 		}
@@ -75,7 +75,7 @@ namespace NinjectExamples
 		public void CanInjectASpecificInstanceIntoProperty()
 		{
 			var truck = new Truck();
-			var murphy = dojo.Get<RoboCop>(new PropertyValue("Automobile", truck));
+			var murphy = _dojo.Get<RoboCop>(new PropertyValue("Automobile", truck));
 
 			Assert.That(murphy.Automobile, Is.EqualTo(truck));
 		}
@@ -83,9 +83,23 @@ namespace NinjectExamples
 		[Test]
 		public void CanBindToAProvider()
 		{
-			dojo.Bind<IBigBadRobot>().ToProvider<RobotFactory>();
-			var ed = dojo.Get<IBigBadRobot>();
+			_dojo.Bind<IBigBadRobot>().ToProvider<RobotFactory>();
+			var ed = _dojo.Get<IBigBadRobot>();
 			Assert.That(ed, Is.InstanceOfType(typeof(Ed209)));
 		}
+
+        [Test]
+        public void CanBindToAnArray()
+        {
+            _dojo.Bind<ICar>().To<Truck>();
+            Assert.That(_dojo.Get<AutoDealer>().Cars.Length, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void IfThereAreTwoBindingsThenTheFirstWillbeUsedByDefault()
+        {
+            _dojo.Bind<ICar>().To<Truck>();
+            Assert.That(_dojo.Get<OneCarCarage>().Car, Is.TypeOf(typeof(Car)));
+        }
 	}
 }

@@ -26,4 +26,24 @@ namespace NinjectExamples
 	{
 		Engine Engine { get; }
 	}
+
+    public class AutoDealer
+    {
+        public readonly ICar[] Cars;
+
+        public AutoDealer(ICar[] cars)
+        {
+            Cars = cars;
+        }
+    }
+
+    public class OneCarCarage
+    {
+        public readonly ICar Car;
+
+        public OneCarCarage(ICar car)
+        {
+            Car = car;
+        }
+    }
 }

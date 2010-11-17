@@ -7,33 +7,33 @@ namespace NinjectExamples
     [TestFixture]
     public class ConstuctorPreferencesTests
     {
-        private IKernel dojo;
+        private IKernel _dojo;
 
         [SetUp]
         public void SetUp()
         {
-            dojo = new StandardKernel();
-            dojo.Bind<ICar>().To<Car>();
-            dojo.Bind<IAmmo>().To<Ammo>();
+            _dojo = new StandardKernel();
+            _dojo.Bind<ICar>().To<Car>();
+            _dojo.Bind<IAmmo>().To<Ammo>();
         }
 
         [Test]
         public void WillUseInjectAttributeFirst()
         {
-            Assert.That(dojo.Get<InjectAttributeFirst>().InjectAttributeWasUsed, Is.True);
+            Assert.That(_dojo.Get<InjectAttributeFirst>().InjectAttributeWasUsed, Is.True);
         }
 
         [Test]
         public void MostComlexIsNext()
         {
-            Assert.That(dojo.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUser, Is.True);
+            Assert.That(_dojo.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUser, Is.True);
         }
 
         [Test]
         [Category("Broken; waiting for fix in Ninject")]
         public void DefaultNoParamsIsNext()
         {
-            Assert.That(dojo.Get<NoParamsIsNext>().NoParamCtorUsed, Is.True);
+            Assert.That(_dojo.Get<NoParamsIsNext>().NoParamCtorUsed, Is.True);
         }
     }
 
