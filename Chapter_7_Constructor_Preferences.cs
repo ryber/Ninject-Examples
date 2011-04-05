@@ -5,46 +5,48 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture]
-    public class ConstuctorPreferencesTests
+    public class Chapter_7_Constructor_Preferences
     {
-        private IKernel _dojo;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _dojo = new StandardKernel();
-            _dojo.Bind<ICar>().To<Car>();
-            _dojo.Bind<IAmmo>().To<Ammo>();
-        }
 
         [Test]
         public void WillUseInjectAttributeFirst()
         {
-            Assert.That(_dojo.Get<InjectAttributeFirst>().InjectAttributeWasUsed, Is.True);
+            var kernel = new StandardKernel();
+            kernel.Bind<TheOneRing>().ToSelf();
+            kernel.Bind<TheDarkCrystal>().ToSelf();
+
+            Assert.That(kernel.Get<InjectAttributeFirst>().InjectAttributeWasUsed, Is.True);
         }
 
         [Test]
-        public void MostComlexIsNext()
+        public void MostComplexThatKernelHasBindingsForIsNext()
         {
-            Assert.That(_dojo.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUser, Is.True);
+            var kernel = new StandardKernel();
+            kernel.Bind<TheOneRing>().ToSelf();
+            kernel.Bind<TheDarkCrystal>().ToSelf();
+
+            Assert.That(kernel.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUsed, Is.True);
         }
 
-        [Test]
-        [Category("Broken; waiting for fix in Ninject")]
+        [Test, Ignore, Category("Broken; waiting for fix in Ninject; https://github.com/ninject/ninject/issues/closed#issue/23")]
         public void DefaultNoParamsIsNext()
         {
-            Assert.That(_dojo.Get<NoParamsIsNext>().NoParamCtorUsed, Is.True);
+            var kernel = new StandardKernel();
+            Assert.That(kernel.Get<NoParamsIsNext>().NoParamCtorUsed, Is.True);
         }
     }
 
+    public class TheOneRing {}
+    public class TheDarkCrystal {}
+
     public class InjectAttributeFirst
     {
-        public bool MostComplexWasUser;
+        public bool MostComplexWasUsed;
         public bool InjectAttributeWasUsed;
 
-        public InjectAttributeFirst(ICar car, IAmmo ammo)
+        public InjectAttributeFirst(TheOneRing ring, TheDarkCrystal rock)
         {
-            MostComplexWasUser = true;
+            MostComplexWasUsed = true;
         }
 
         [Inject]
@@ -56,7 +58,7 @@ namespace NinjectExamples
 
     public class MostComplexThatCanbeResolvedNext
     {
-        public bool MostComplexWasUser;
+        public bool MostComplexWasUsed;
         public bool NoParamCtorUsed;
         public bool AmNothingWasUsed;
 
@@ -70,9 +72,9 @@ namespace NinjectExamples
             AmNothingWasUsed = true;
         }
 
-        public MostComplexThatCanbeResolvedNext(ICar car, IAmmo ammo)
+        public MostComplexThatCanbeResolvedNext(TheOneRing ring, TheDarkCrystal rock)
         {
-            MostComplexWasUser = true;
+            MostComplexWasUsed = true;
         }
     }
 
