@@ -67,9 +67,11 @@
     <Compile Include="Chapter_3_Scopes.cs" />
     <Compile Include="Chapter_4_Providers.cs" />
     <Compile Include="Chapter_5_Injection.cs" />
-    <Compile Include="Chapter_6_Conditional_Bindings.cs" />
-    <Compile Include="Chapter_7_Constructor_Preferences.cs" />
+    <Compile Include="Chapter_7_Conditional_Bindings.cs" />
+    <Compile Include="Chapter_6_Constructor_Preferences.cs" />
+    <Compile Include="Chapter_8_Named_Bindings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

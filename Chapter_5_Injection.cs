@@ -56,7 +56,7 @@ namespace NinjectExamples
             Assert.That(darth.Weapon, Is.InstanceOfType(typeof(Lightsaber)));
         }
 
-        [Test]
+        [Test, Documentation("https://github.com/ninject/ninject/wiki/Multi-injection")]
         public void CanGetAnArrayWhenMoreThanOneBindingExists()
         {
             var kernel = new StandardKernel();

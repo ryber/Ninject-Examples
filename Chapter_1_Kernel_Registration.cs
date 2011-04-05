@@ -1,15 +1,13 @@
-using System;
 using System.Linq;
 using System.Reflection;
 using Ninject;
 using Ninject.Modules;
-using Ninject.Planning.Bindings;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
 namespace NinjectExamples
 {
-    [TestFixture]
+    [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Modules-and-the-Kernel")]
     public class Chapter_1_Kernel_Registration
     {
 

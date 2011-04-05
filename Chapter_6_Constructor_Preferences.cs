@@ -5,7 +5,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture]
-    public class Chapter_7_Constructor_Preferences
+    public class Chapter_6_Constructor_Preferences
     {
 
         [Test]

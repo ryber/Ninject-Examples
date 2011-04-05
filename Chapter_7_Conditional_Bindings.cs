@@ -6,7 +6,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture]
-    public class Chapter_6_Conditional_Bindings
+    public class Chapter_7_Conditional_Bindings
     {
 
         [Test]
