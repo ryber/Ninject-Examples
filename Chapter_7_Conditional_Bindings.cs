@@ -5,12 +5,12 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace NinjectExamples
 {
-    [TestFixture]
+    [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Contextual-Binding")]
     public class Chapter_7_Conditional_Bindings
     {
 
         [Test]
-        public void CanResolveBasedOnAttribute()
+        public void CanResolveBasedOnClassAttribute()
         {
             var kernel = new StandardKernel();
 
@@ -22,6 +22,35 @@ namespace NinjectExamples
             Assert.That(kernel.Get<CityRoad>().Car, Is.InstanceOfType(typeof(Car)));
             Assert.That(kernel.Get<CountryRoad>().Car, Is.InstanceOfType(typeof(Truck)));
             Assert.That(kernel.Get<Beach>().Car, Is.InstanceOfType(typeof(Dunebuggy)));
+        }
+
+        [Test]
+        public void CanResolveBasedOnFieldAttribute()
+        {
+            var kernel = new StandardKernel();
+
+            kernel.Bind<ICar>().To<Car>().WhenClassHas<City>();
+            kernel.Bind<ICar>().To<Truck>().WhenClassHas<Country>();
+            kernel.Bind<ICar>().To<Dunebuggy>();
+
+
+            Assert.That(kernel.Get<CityRoad>().Car, Is.InstanceOfType(typeof(Car)));
+            Assert.That(kernel.Get<CountryRoad>().Car, Is.InstanceOfType(typeof(Truck)));
+            Assert.That(kernel.Get<Beach>().Car, Is.InstanceOfType(typeof(Dunebuggy)));
+        }
+
+        [Test]
+        public void CanRelveBaseOnTypeBeingInjectedTo()
+        {
+            var kernel = new StandardKernel();
+
+            kernel.Bind<ICar>().To<Car>().WhenMemberHas<City>();
+            kernel.Bind<ICar>().To<Truck>().WhenClassHas<Country>();
+            kernel.Bind<ICar>().To<Dunebuggy>();
+
+            var garage = kernel.Get<Garage>();
+            Assert.That(garage.CityCar, Is.InstanceOfType(typeof(Car)));
+            Assert.That(garage.CountryCar, Is.InstanceOfType(typeof(Truck)));
         }
     }
 
@@ -64,5 +93,21 @@ namespace NinjectExamples
         {
             Car = car;
         }
+    }
+
+    public class Barn
+    {
+        [Inject, Country]
+        public ICar Car { get; set; }
+    }
+
+    [Country]
+    public class Garage
+    {
+        [Inject, City]
+        public ICar CityCar { get; set; }
+
+        [Inject]
+        public ICar CountryCar { get; set; }
     }
 }
