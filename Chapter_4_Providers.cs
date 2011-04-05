@@ -2,6 +2,7 @@ using System;
 using Ninject;
 using Ninject.Activation;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace NinjectExamples
 {
@@ -24,12 +25,21 @@ namespace NinjectExamples
             var kernel = new StandardKernel();
             kernel.Bind<IWeapon>().ToProvider<NunchakuFactory>();
 
-            kernel.Get<IWeapon>();
+            Assert.That(kernel.Get<IWeapon>(), Is.InstanceOfType(typeof(Nunchaku)));
         }
 
-        public interface IWeapon { }  
+        [Test]
+        public void CanUseAnAnonymousMethodForResolution()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind<IWeapon>().ToMethod(x=>Nunchaku.GetOne());
 
-        public class Nunchaku : IWeapon
+            Assert.That(kernel.Get<IWeapon>(), Is.InstanceOfType(typeof(Nunchaku)));
+        }
+
+        private interface IWeapon { }
+
+        private class Nunchaku : IWeapon
         {
             private Nunchaku() { }
 
@@ -39,7 +49,7 @@ namespace NinjectExamples
             }
         }
 
-        public class NunchakuFactory : IProvider
+        private class NunchakuFactory : IProvider
         {
             public object Create(IContext context)
             {
