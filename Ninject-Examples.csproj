@@ -31,29 +31,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+    <Reference Include="Ninject, Version=2.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Ninject.dll</HintPath>
+      <HintPath>lib\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Web, Version=2.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Ninject.Web.dll</HintPath>
+      <HintPath>lib\Ninject.Web.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Web.Common, Version=2.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Ninject.Web.Common.dll</HintPath>
+      <HintPath>lib\Ninject.Web.Common.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\nunit.core.dll</HintPath>
+      <HintPath>Tools\nUnit\nunit.core.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core.interfaces, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\nunit.core.interfaces.dll</HintPath>
+      <HintPath>Tools\nUnit\nunit.core.interfaces.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\nunit.framework.dll</HintPath>
+      <HintPath>Tools\nUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -70,17 +70,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chapter_1_Kernel_Registration.cs" />
-    <Compile Include="Chapter_2_SimpleBindingResolution.cs" />
-    <Compile Include="Chapter_3_Scopes.cs" />
-    <Compile Include="Chapter_4_Providers.cs" />
-    <Compile Include="Chapter_5_Injection.cs" />
-    <Compile Include="Chapter_7_Conditional_Bindings.cs" />
-    <Compile Include="Chapter_6_Constructor_Preferences.cs" />
-    <Compile Include="Chapter_8_Named_Bindings.cs" />
-    <Compile Include="Chapter_9_ConstraintAttribute_Bindings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility.cs" />
+    <Compile Include="src\Chapter_1_Kernel_Registration.cs" />
+    <Compile Include="src\Chapter_2_SimpleBindingResolution.cs" />
+    <Compile Include="src\Chapter_3_Scopes.cs" />
+    <Compile Include="src\Chapter_4_Providers.cs" />
+    <Compile Include="src\Chapter_5_Injection.cs" />
+    <Compile Include="src\Chapter_6_Constructor_Preferences.cs" />
+    <Compile Include="src\Chapter_7_Conditional_Bindings.cs" />
+    <Compile Include="src\Chapter_8_Named_Bindings.cs" />
+    <Compile Include="src\Chapter_9_ConstraintAttribute_Bindings.cs" />
+    <Compile Include="src\Utility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
