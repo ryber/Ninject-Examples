@@ -20,8 +20,8 @@ namespace NinjectExamples
             Assert.That(kernel.Get<AmphibiousAttack>().Warrior, Is.InstanceOfType(typeof(SpecialNinja)));
         }
 
-        [Test]
-        public void IfNoAttributeProvidedWillResolveToFirstBinding()
+        [Test, ExpectedException(typeof(ActivationException))]
+        public void AmbiguousMappingWillThrowException()
         {
             var kernel = new StandardKernel();        
             kernel.Bind<IWarrior>().To<Samurai>().WithMetadata("CanSwim", false);

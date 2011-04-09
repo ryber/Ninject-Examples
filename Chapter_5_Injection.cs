@@ -70,8 +70,8 @@ namespace NinjectExamples
             Assert.That(weaponTypes, Has.Member(typeof(Blaster)));
         }
 
-        [Test]
-        public void WillGiveYouTheFirstBindingIfThereIsMoreThanOne()
+        [Test, ExpectedException(typeof(ActivationException))]
+        public void MoreThanOneBindingWillThrowActivationException()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IWeapon>().To<Blaster>();

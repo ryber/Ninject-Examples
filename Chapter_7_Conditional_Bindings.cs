@@ -40,13 +40,14 @@ namespace NinjectExamples
         }
 
         [Test]
-        public void CanRelveBaseOnTypeBeingInjectedTo()
+        public void CanResolveBasedOnMemberAttribute()
         {
             var kernel = new StandardKernel();
 
             kernel.Bind<ICar>().To<Car>().WhenMemberHas<City>();
-            kernel.Bind<ICar>().To<Truck>().WhenClassHas<Country>();
+            kernel.Bind<ICar>().To<Truck>().WhenMemberHas<Country>();
             kernel.Bind<ICar>().To<Dunebuggy>();
+      
 
             var garage = kernel.Get<Garage>();
             Assert.That(garage.CityCar, Is.InstanceOfType(typeof(Car)));
@@ -101,13 +102,12 @@ namespace NinjectExamples
         public ICar Car { get; set; }
     }
 
-    [Country]
     public class Garage
     {
         [Inject, City]
         public ICar CityCar { get; set; }
 
-        [Inject]
+        [Inject, Country]
         public ICar CountryCar { get; set; }
     }
 }
