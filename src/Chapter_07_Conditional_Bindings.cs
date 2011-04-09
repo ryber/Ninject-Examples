@@ -6,7 +6,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Contextual-Binding")]
-    public class Chapter_7_Conditional_Bindings
+    public class Chapter_07_Conditional_Bindings
     {
 
         [Test]

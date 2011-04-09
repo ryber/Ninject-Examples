@@ -7,7 +7,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Contextual-Binding")]
-    public class Chapter_9_ConstraintAttribute_Bindings
+    public class Chapter_09_ConstraintAttribute_Bindings
     {
         [Test]
         public void CanUseContraintAttributes()

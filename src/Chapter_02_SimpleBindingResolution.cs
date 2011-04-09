@@ -5,7 +5,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture]
-    public class Chapter_2_SimpleBindingResolution
+    public class Chapter_02_SimpleBindingResolution
     {
         [Test]
         public void GetInterfaceImplimentation()

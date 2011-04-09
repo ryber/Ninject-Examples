@@ -7,7 +7,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture]
-    public class Chapter_4_Providers
+    public class Chapter_04_Providers
     {
         [Test, ExpectedException(typeof(ActivationException))]
         public void ClassesMustBeConstructable()

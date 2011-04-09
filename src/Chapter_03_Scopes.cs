@@ -13,7 +13,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture]
-    public class Chapter_3_Scopes
+    public class Chapter_03_Scopes
     {
         [Test]
         public void TransientScopeGivesYouANewInstanceEveryTime()

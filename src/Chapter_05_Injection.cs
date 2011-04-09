@@ -6,7 +6,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture]
-    public class Chapter_5_Injection
+    public class Chapter_05_Injection
     {
         [Test]
         public void ConstructorInjection()

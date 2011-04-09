@@ -8,7 +8,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Modules-and-the-Kernel")]
-    public class Chapter_1_Kernel_Registration
+    public class Chapter_01_Kernel_Registration
     {
 
         [Test]

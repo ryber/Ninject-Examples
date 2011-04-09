@@ -6,4 +6,9 @@ namespace NinjectExamples
     {
         public Documentation(string link){}
     }
+
+    public class Warning : Attribute
+    {
+        public Documentation(string link) { }
+    }
 }

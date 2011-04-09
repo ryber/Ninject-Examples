@@ -5,7 +5,7 @@ using NUnit.Framework.SyntaxHelpers;
 namespace NinjectExamples
 {
     [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Contextual-Binding")]
-    public class Chapter_8_Named_Bindings
+    public class Chapter_08_Named_Bindings
     {
         [Test]
         public void CanUseNamedAttributeToGetProperType()
