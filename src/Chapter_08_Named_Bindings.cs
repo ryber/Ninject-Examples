@@ -1,31 +1,32 @@
 using Ninject;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Xunit;
+using Xunit.Should;
+
 
 namespace NinjectExamples
 {
-    [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Contextual-Binding")]
+    //"https://github.com/ninject/ninject/wiki/Contextual-Binding"
     public class Chapter_08_Named_Bindings
     {
-        [Test]
+        [Fact]
         public void CanUseNamedAttributeToGetProperType()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IWarrior>().To<Human>().Named("Tall");
             kernel.Bind<IWarrior>().To<Hobbit>().Named("Short");
 
-            Assert.That(kernel.Get<ShireArmy>().Warrior, Is.InstanceOfType(typeof(Hobbit)));
+            kernel.Get<ShireArmy>().Warrior.ShouldBeInstanceOf<Hobbit>();
         }
 
-        [Test]
+        [Fact]
         public void CanAccessNamedAttributeDirectly()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IWarrior>().To<Human>().Named("Tall");
             kernel.Bind<IWarrior>().To<Hobbit>().Named("Short");
 
-            Assert.That(kernel.Get<IWarrior>("Short"), Is.InstanceOfType(typeof(Hobbit)));
-            Assert.That(kernel.Get<IWarrior>("Tall"), Is.InstanceOfType(typeof(Human)));
+            kernel.Get<IWarrior>("Short").ShouldBeInstanceOf<Hobbit>();
+            kernel.Get<IWarrior>("Tall").ShouldBeInstanceOf<Human>();
         }
 
         public class ShireArmy

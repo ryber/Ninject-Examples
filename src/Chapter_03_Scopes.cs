@@ -7,15 +7,16 @@ using Ninject.Activation;
 using Ninject.Activation.Caching;
 using Ninject.Infrastructure.Disposal;
 using Ninject.Web.Common;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Xunit;
+using Xunit.Should;
+
 
 namespace NinjectExamples
 {
-    [TestFixture]
+  
     public class Chapter_03_Scopes
     {
-        [Test]
+        [Fact]
         public void TransientScopeGivesYouANewInstanceEveryTime()
         {
             var kernel = new StandardKernel();
@@ -25,10 +26,11 @@ namespace NinjectExamples
             var tool1 = kernel.Get<ITool>();
             var tool2 = kernel.Get<ITool>();
 
-            Assert.That(tool1, Is.Not.EqualTo(tool2));
+            tool1.ShouldNotBe(tool2);
+
         }
 
-        [Test]
+        [Fact]
         public void SingleTonScopeGivesYouTheSameInstranceEveryTime()
         {
             var kernel = new StandardKernel();
@@ -37,10 +39,10 @@ namespace NinjectExamples
             var tool1 = kernel.Get<ITool>();
             var tool2 = kernel.Get<ITool>();
 
-            Assert.That(tool1, Is.EqualTo(tool2));
+            tool1.ShouldBe(tool2);
         }
 
-        [Test]
+        [Fact]
         public void ThreadScopeReturnsTheSameInstanceForAThread()
         {
 
@@ -57,12 +59,11 @@ namespace NinjectExamples
             thread.Start();
             thread.Join();
 
-            Assert.That(tool1, Is.EqualTo(tool2));
-            Assert.That(tool1, Is.Not.EqualTo(tool3));
-        
+            tool1.ShouldBe(tool2);
+            tool1.ShouldNotBe(tool3);
         }
 
-        [Test]
+        [Fact]
         public void RequestScopeReturnsTheSameInstanceForAHttpRequest()
         {
             StartNewHttpRequest();
@@ -74,7 +75,8 @@ namespace NinjectExamples
             var tool1 = kernel.Get<ITool>();
             var tool2 = kernel.Get<ITool>();
 
-            Assert.That(tool1, Is.EqualTo(tool2));
+            tool1.ShouldBe(tool2);
+
 
             StartNewHttpRequest();
 
@@ -83,12 +85,10 @@ namespace NinjectExamples
 
             var tool3 = kernel.Get<ITool>();
 
-            
-            Assert.That(tool1, Is.Not.EqualTo(tool3));
-
+            tool1.ShouldNotBe(tool3);
         }
 
-        [Test]
+        [Fact]
         public void InstancesAreDisposedWhenRequestEndsAndCacheIsPruned()
         {
             var settings = new NinjectSettings { CachePruningInterval = TimeSpan.MaxValue };
@@ -101,8 +101,8 @@ namespace NinjectExamples
 
             var instance = kernel.Get<ITool>();
 
-            Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.InstanceOfType(typeof(Hammer)));
+            instance.ShouldNotBeNull();
+            instance.ShouldBeInstanceOf<Hammer>();
 
             StartNewHttpRequest();
 
@@ -111,11 +111,11 @@ namespace NinjectExamples
 
             cache.Prune();
 
-            Assert.That(instance.IsDisposed, Is.True);
+            instance.IsDisposed.ShouldBeTrue();
         }
 
 
-        [Test]
+        [Fact]
         public void InstancesAreDisposedViaOnePerRequestModule()
         {
             var settings = new NinjectSettings { CachePruningInterval = TimeSpan.MaxValue };
@@ -126,17 +126,17 @@ namespace NinjectExamples
 
             var instance = kernel.Get<ITool>();
 
-            Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.InstanceOfType(typeof(Hammer)));
+            instance.ShouldNotBeNull();
+            instance.ShouldBeInstanceOf<Hammer>();
 
             var opr = new OnePerRequestModule();
             opr.DeactivateInstancesForCurrentHttpRequest();
 
-            Assert.That(instance.IsDisposed, Is.True);
+            instance.IsDisposed.ShouldBeTrue();
         
         }
 
-        [Test]
+        [Fact]
         public void WeCanEvenDefineOurOwnScope()
         {
             var kernel = new StandardKernel();
@@ -149,8 +149,8 @@ namespace NinjectExamples
 
             var tool3 = kernel.Get<ITool>();
 
-            Assert.That(tool1, Is.EqualTo(tool2));
-            Assert.That(tool1, Is.Not.EqualTo(tool3));
+            tool1.ShouldBe(tool2);
+            tool1.ShouldNotBe(tool3);
         }
 
         private IContext cachedContext;

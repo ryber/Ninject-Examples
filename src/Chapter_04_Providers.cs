@@ -1,40 +1,46 @@
 using System;
 using Ninject;
 using Ninject.Activation;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Xunit;
+using Xunit.Should;
+
 
 namespace NinjectExamples
 {
-    [TestFixture]
+
     public class Chapter_04_Providers
     {
-        [Test, ExpectedException(typeof(ActivationException))]
+        [Fact]
         public void ClassesMustBeConstructable()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IWeapon>().To<Nunchaku>();
 
-            kernel.Get<IWeapon>();
+            Assert.Throws<ActivationException>(
+                              delegate
+                              {
+                                  kernel.Get<IWeapon>();
+                              });
+            
             //Nunchaku has a private constructor and so will throw a exception
         }
 
-        [Test]
+        [Fact]
         public void ProvidersCanBeUsedForCustomConstruction()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IWeapon>().ToProvider<NunchakuFactory>();
 
-            Assert.That(kernel.Get<IWeapon>(), Is.InstanceOfType(typeof(Nunchaku)));
+            kernel.Get<IWeapon>().ShouldBeInstanceOf<Nunchaku>();
         }
 
-        [Test]
+        [Fact]
         public void CanUseAnAnonymousMethodForResolution()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IWeapon>().ToMethod(x=>Nunchaku.GetOne());
 
-            Assert.That(kernel.Get<IWeapon>(), Is.InstanceOfType(typeof(Nunchaku)));
+            kernel.Get<IWeapon>().ShouldBeInstanceOf<Nunchaku>();
         }
 
         private interface IWeapon { }

@@ -2,49 +2,50 @@ using System.Linq;
 using System.Reflection;
 using Ninject;
 using Ninject.Modules;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Xunit;
+
 
 namespace NinjectExamples
 {
-    [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Modules-and-the-Kernel")]
+    //"https://github.com/ninject/ninject/wiki/Modules-and-the-Kernel"
+
     public class Chapter_01_Kernel_Registration
     {
 
-        [Test]
+        [Fact]
         public void SingleBinding()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IVegetable>().To<Carrot>();
 
-            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(1));
+            kernel.GetBindings(typeof (IVegetable)).Count().Equals(1);
         }
 
-        [Test]
+        [Fact]
         public void ModuleBinding()
         {
             var kernel = new StandardKernel();
             kernel.Load(new VeggieModule());
 
-            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(1));
+            kernel.GetBindings(typeof(IVegetable)).Count().Equals(1);
         }
 
-        [Test]
+        [Fact]
         public void AssemblyScanningByFileName()
         {
             var kernel = new StandardKernel();
             kernel.Load("NinjectExamples.dll");
 
-            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(1));
+            kernel.GetBindings(typeof(IVegetable)).Count().Equals(1);
         }
 
-        [Test]
+        [Fact]
         public void AssemblyScanningByAssembly()
         {
             var kernel = new StandardKernel();
             kernel.Load(Assembly.GetExecutingAssembly());
 
-            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(1));
+            kernel.GetBindings(typeof(IVegetable)).Count().Equals(1);
         }
 
         public interface IVegetable

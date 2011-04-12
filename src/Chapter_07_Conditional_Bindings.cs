@@ -1,15 +1,15 @@
 using System;
 using Ninject;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Xunit;
+using Xunit.Should;
 
 namespace NinjectExamples
 {
-    [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Contextual-Binding")]
+    // "https://github.com/ninject/ninject/wiki/Contextual-Binding"
     public class Chapter_07_Conditional_Bindings
     {
 
-        [Test]
+        [Fact]
         public void CanResolveBasedOnClassAttribute()
         {
             var kernel = new StandardKernel();
@@ -19,27 +19,14 @@ namespace NinjectExamples
             kernel.Bind<ICar>().To<Dunebuggy>();
 
 
-            Assert.That(kernel.Get<CityRoad>().Car, Is.InstanceOfType(typeof(Car)));
-            Assert.That(kernel.Get<CountryRoad>().Car, Is.InstanceOfType(typeof(Truck)));
-            Assert.That(kernel.Get<Beach>().Car, Is.InstanceOfType(typeof(Dunebuggy)));
+            kernel.Get<CityRoad>().Car.ShouldBeInstanceOf<Car>();
+            kernel.Get<CountryRoad>().Car.ShouldBeInstanceOf<Truck>();
+            kernel.Get<Beach>().Car.ShouldBeInstanceOf<Dunebuggy>();
         }
 
-        [Test]
-        public void CanResolveBasedOnFieldAttribute()
-        {
-            var kernel = new StandardKernel();
-
-            kernel.Bind<ICar>().To<Car>().WhenClassHas<City>();
-            kernel.Bind<ICar>().To<Truck>().WhenClassHas<Country>();
-            kernel.Bind<ICar>().To<Dunebuggy>();
 
 
-            Assert.That(kernel.Get<CityRoad>().Car, Is.InstanceOfType(typeof(Car)));
-            Assert.That(kernel.Get<CountryRoad>().Car, Is.InstanceOfType(typeof(Truck)));
-            Assert.That(kernel.Get<Beach>().Car, Is.InstanceOfType(typeof(Dunebuggy)));
-        }
-
-        [Test]
+        [Fact]
         public void CanResolveBasedOnMemberAttribute()
         {
             var kernel = new StandardKernel();
@@ -50,8 +37,9 @@ namespace NinjectExamples
       
 
             var garage = kernel.Get<Garage>();
-            Assert.That(garage.CityCar, Is.InstanceOfType(typeof(Car)));
-            Assert.That(garage.CountryCar, Is.InstanceOfType(typeof(Truck)));
+            garage.CityCar.ShouldBeInstanceOf<Car>();
+            garage.CountryCar.ShouldBeInstanceOf<Truck>();
+
         }
     }
 

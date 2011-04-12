@@ -1,38 +1,39 @@
 using Ninject;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Xunit;
+using Xunit.Should;
+
 
 namespace NinjectExamples
 {
-    [TestFixture]
+
     public class Chapter_06_Constructor_Preferences
     {
 
-        [Test]
+        [Fact]
         public void WillUseInjectAttributeFirst()
         {
             var kernel = new StandardKernel();
             kernel.Bind<TheOneRing>().ToSelf();
             kernel.Bind<TheDarkCrystal>().ToSelf();
 
-            Assert.That(kernel.Get<InjectAttributeFirst>().InjectAttributeWasUsed, Is.True);
+            kernel.Get<InjectAttributeFirst>().InjectAttributeWasUsed.ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void MostComplexThatKernelHasBindingsForIsNext()
         {
             var kernel = new StandardKernel();
             kernel.Bind<TheOneRing>().ToSelf();
             kernel.Bind<TheDarkCrystal>().ToSelf();
 
-            Assert.That(kernel.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUsed, Is.True);
+            kernel.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUsed.ShouldBeTrue();
         }
 
-        [Test, Ignore, Category("Broken; waiting for fix in Ninject; https://github.com/ninject/ninject/issues/closed#issue/23")]
+        [Fact(Skip="Currently Broken")]
         public void DefaultNoParamsIsNext()
         {
             var kernel = new StandardKernel();
-            Assert.That(kernel.Get<NoParamsIsNext>().NoParamCtorUsed, Is.True);
+            kernel.Get<NoParamsIsNext>().NoParamCtorUsed.ShouldBeTrue();
         }
     }
 

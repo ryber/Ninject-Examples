@@ -1,15 +1,16 @@
 using System;
 using Ninject;
 using Ninject.Planning.Bindings;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Xunit;
+using Xunit.Should;
+
 
 namespace NinjectExamples
 {
-    [TestFixture, Documentation("https://github.com/ninject/ninject/wiki/Contextual-Binding")]
+    //"https://github.com/ninject/ninject/wiki/Contextual-Binding"
     public class Chapter_09_ConstraintAttribute_Bindings
     {
-        [Test]
+        [Fact]
         public void CanUseContraintAttributes()
         {
             var kernel = new StandardKernel();
@@ -17,10 +18,10 @@ namespace NinjectExamples
             kernel.Bind<IWarrior>().To<Samurai>().WithMetadata("CanSwim", false);
             kernel.Bind<IWarrior>().To<SpecialNinja>().WithMetadata("CanSwim", true);
 
-            Assert.That(kernel.Get<AmphibiousAttack>().Warrior, Is.InstanceOfType(typeof(SpecialNinja)));
+            kernel.Get<AmphibiousAttack>().Warrior.ShouldBeInstanceOf<SpecialNinja>();
         }
 
-        [Test, ExpectedException(typeof(ActivationException))]
+        [Fact]
         public void AmbiguousMappingWillThrowException()
         {
             var kernel = new StandardKernel();        
@@ -28,7 +29,11 @@ namespace NinjectExamples
             kernel.Bind<IWarrior>().To<SpecialNinja>().WithMetadata("CanSwim", true);
 
 
-            Assert.That(kernel.Get<AmbiguiousAttack>().Warrior, Is.InstanceOfType(typeof(Samurai)));
+            Assert.Throws<ActivationException>(
+                delegate
+                    {
+                        var warrior = kernel.Get<AmbiguiousAttack>().Warrior;
+                    });
         }
 
         public interface IWarrior { }
