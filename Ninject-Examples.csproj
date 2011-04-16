@@ -81,6 +81,7 @@
     <Compile Include="src\Chapter_07_Conditional_Bindings.cs" />
     <Compile Include="src\Chapter_08_Named_Bindings.cs" />
     <Compile Include="src\Chapter_09_ConstraintAttribute_Bindings.cs" />
+    <Compile Include="src\Chapter_11_ConstructorArguments.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
