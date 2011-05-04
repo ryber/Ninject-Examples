@@ -140,29 +140,25 @@ namespace NinjectExamples
         public void WeCanEvenDefineOurOwnScope()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<ITool>().To<Hammer>().InScope(CustomScope);
+            var scopeObject = new ScopeObject();
+
+
+            kernel.Bind<ITool>().To<Hammer>().InScope(ctx=>scopeObject);
 
             var tool1 = kernel.Get<ITool>();
             var tool2 = kernel.Get<ITool>();
 
-            cachedContext = null;
+            scopeObject.Dispose();
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            scopeObject = new ScopeObject();
 
             var tool3 = kernel.Get<ITool>();
 
             tool1.ShouldBe(tool2);
             tool1.ShouldNotBe(tool3);
-        }
-
-        private IContext cachedContext;
-
-        private object CustomScope(IContext arg)
-        {
-            if(cachedContext == null)
-            {
-                cachedContext = arg;
-            }
-            
-            return cachedContext;
         }
 
         private static void StartNewHttpRequest()
@@ -190,5 +186,12 @@ namespace NinjectExamples
                 }
             }
         }
+
+
+        public class ScopeObject : DisposableObject
+        {
+            
+        }
+   
     }
 }

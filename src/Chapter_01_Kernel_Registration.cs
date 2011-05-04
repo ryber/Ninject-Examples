@@ -3,6 +3,7 @@ using System.Reflection;
 using Ninject;
 using Ninject.Modules;
 using Xunit;
+using Xunit.Should;
 
 
 namespace NinjectExamples
@@ -22,12 +23,40 @@ namespace NinjectExamples
         }
 
         [Fact]
+        public void CanRemoveBinding()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind<IVegetable>().To<Carrot>();
+            kernel.Unbind<IVegetable>();
+            kernel.GetBindings(typeof(IVegetable)).Count().Equals(0);
+        }
+
+        [Fact]
+        public void CanReplaceBinding()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind<IVegetable>().To<Carrot>();
+            kernel.Rebind<IVegetable>().To<GreenBean>();
+            kernel.Get<IVegetable>().ShouldBeInstanceOf<GreenBean>();
+        }
+
+        [Fact]
         public void ModuleBinding()
         {
             var kernel = new StandardKernel();
             kernel.Load(new VeggieModule());
 
             kernel.GetBindings(typeof(IVegetable)).Count().Equals(1);
+        }
+
+        [Fact]
+        public void CanGetBackRegisteredModules()
+        {
+            var kernel = new StandardKernel();
+            var module = new VeggieModule();
+            kernel.Load(module);
+
+            kernel.GetModules().ShouldContain(module);
         }
 
         [Fact]
@@ -56,6 +85,11 @@ namespace NinjectExamples
         public class Carrot : IVegetable
         {
             
+        }
+
+        public class GreenBean : IVegetable
+        {
+
         }
         
         public class VeggieModule : NinjectModule

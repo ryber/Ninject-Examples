@@ -1,3 +1,4 @@
+using System;
 using Ninject;
 using Xunit;
 using Xunit.Should;
@@ -29,11 +30,24 @@ namespace NinjectExamples
             kernel.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUsed.ShouldBeTrue();
         }
 
-        [Fact(Skip="Currently Broken")]
+        [Fact(Skip="Currently Broken: Note that if the zero param constructor is physically located first in the class. This will pass.")]
         public void DefaultNoParamsIsNext()
         {
             var kernel = new StandardKernel();
             kernel.Get<NoParamsIsNext>().NoParamCtorUsed.ShouldBeTrue();
+        }
+
+        [Fact(Skip="Currently Broken: see issue 35")]
+        public void TwoInjectsOnDifferentContructorsWillResultInException()
+        {
+            var kernel = new StandardKernel();
+
+            Assert.Throws<NotSupportedException>(
+                delegate{
+                             kernel.Get<TwoInjectedConstructorsThrows>();
+                         }
+            );
+            
         }
     }
 
@@ -93,6 +107,21 @@ namespace NinjectExamples
         public NoParamsIsNext()
         {
             NoParamCtorUsed = true;
+        }
+    }
+
+    public class TwoInjectedConstructorsThrows
+    {
+        [Inject]
+        public TwoInjectedConstructorsThrows(TheOneRing ring)
+        {
+            Console.WriteLine("ring");
+        }
+
+        [Inject]
+        public TwoInjectedConstructorsThrows(TheDarkCrystal rock)
+        {
+            Console.WriteLine("rock");
         }
     }
 
