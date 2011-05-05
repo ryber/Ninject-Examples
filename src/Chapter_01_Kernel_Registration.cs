@@ -41,6 +41,21 @@ namespace NinjectExamples
         }
 
         [Fact]
+        public void RebindClearsAllBindingsForAType()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind<IVegetable>().To<Carrot>();
+            kernel.Bind<IVegetable>().To<GreenBean>();
+
+            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(2);
+
+            kernel.Rebind<IVegetable>().To<Peas>();
+
+            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
+        }
+
+
+        [Fact]
         public void ModuleBinding()
         {
             var kernel = new StandardKernel();
@@ -77,20 +92,13 @@ namespace NinjectExamples
             kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
         }
 
-        public interface IVegetable
-        {
-            
-        }
+        public interface IVegetable {}
 
-        public class Carrot : IVegetable
-        {
-            
-        }
+        public class Carrot : IVegetable{}
 
-        public class GreenBean : IVegetable
-        {
+        public class GreenBean : IVegetable {}
 
-        }
+        public class Peas : IVegetable {}
         
         public class VeggieModule : NinjectModule
         {
