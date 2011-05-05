@@ -19,7 +19,7 @@ namespace NinjectExamples
             var kernel = new StandardKernel();
             kernel.Bind<IVegetable>().To<Carrot>();
 
-            kernel.GetBindings(typeof (IVegetable)).Count().Equals(1);
+            kernel.GetBindings(typeof (IVegetable)).Count().ShouldBe(1);
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace NinjectExamples
             var kernel = new StandardKernel();
             kernel.Bind<IVegetable>().To<Carrot>();
             kernel.Unbind<IVegetable>();
-            kernel.GetBindings(typeof(IVegetable)).Count().Equals(0);
+            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(0);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace NinjectExamples
             var kernel = new StandardKernel();
             kernel.Load(new VeggieModule());
 
-            kernel.GetBindings(typeof(IVegetable)).Count().Equals(1);
+            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace NinjectExamples
             var kernel = new StandardKernel();
             kernel.Load("NinjectExamples.dll");
 
-            kernel.GetBindings(typeof(IVegetable)).Count().Equals(1);
+            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace NinjectExamples
             var kernel = new StandardKernel();
             kernel.Load(Assembly.GetExecutingAssembly());
 
-            kernel.GetBindings(typeof(IVegetable)).Count().Equals(1);
+            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
         }
 
         public interface IVegetable
