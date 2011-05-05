@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.NamedScope, Version=2.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Ninject.Extensions.NamedScope.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject.Web, Version=2.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Ninject.Web.dll</HintPath>
@@ -82,6 +86,7 @@
     <Compile Include="src\Chapter_08_Named_Bindings.cs" />
     <Compile Include="src\Chapter_09_ConstraintAttribute_Bindings.cs" />
     <Compile Include="src\Chapter_11_ConstructorArguments.cs" />
+    <Compile Include="src\Chapter_12_Named_Scopes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using System.Web;
 using Ninject;
-using Ninject.Activation;
 using Ninject.Activation.Caching;
 using Ninject.Infrastructure.Disposal;
 using Ninject.Web.Common;
