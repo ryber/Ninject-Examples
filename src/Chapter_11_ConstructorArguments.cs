@@ -1,13 +1,14 @@
 using Ninject;
 using Ninject.Parameters;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 namespace NinjectExamples
 {
+    [TestFixture]
     public class Chapter_11_ConstructorArguments
     {
-        [Fact]
+        [Test]
         public void CanSpecifyConstructorArgumentByParamName()
         {
             var kernel = new StandardKernel();
@@ -15,12 +16,12 @@ namespace NinjectExamples
 
             var max = kernel.Get<Maximillian>(new ConstructorArgument("leftArm", new SpinnyBladeThing()));
 
-            max.LeftArm.ShouldBeInstanceOf<SpinnyBladeThing>();
-            max.RightArm.ShouldBeInstanceOf<Gun>();
+            Assert.That(max.LeftArm, Is.InstanceOf<SpinnyBladeThing>());
+            Assert.That(max.RightArm, Is.InstanceOf<Gun>());
         }
 
 
-        [Fact]
+        [Test]
         public void CanSpecifyParamArguments()
         {
             var kernel = new StandardKernel();
@@ -28,20 +29,18 @@ namespace NinjectExamples
 
             var bob = kernel.Get<Bob>(new PropertyValue("LeftStub", new SpinnyBladeThing()));
 
-            bob.LeftStub.ShouldBeInstanceOf<SpinnyBladeThing>();
-            bob.RightStub.ShouldBeInstanceOf<Gun>();
+            Assert.That(bob.LeftStub, Is.InstanceOf<SpinnyBladeThing>());
+            Assert.That(bob.RightStub, Is.InstanceOf<Gun>());
         }
 
-        [Fact]
+        [Test]
         public void WillThrowActivationExceptionIfYouGetTheTextWrong()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IWeapon>().To<Gun>();
 
-            Assert.Throws<ActivationException>(delegate
-                                  {
-                                          kernel.Get<Bob>(new PropertyValue("NotRight", new SpinnyBladeThing()));
-                                  })
+            Assert.Throws<ActivationException>(
+                () => kernel.Get<Bob>(new PropertyValue("NotRight", new SpinnyBladeThing())))
             ;
         }
 

@@ -1,15 +1,16 @@
 using System;
 using Ninject;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 namespace NinjectExamples
 {
     // "https://github.com/ninject/ninject/wiki/Contextual-Binding"
+    [TestFixture]
     public class Chapter_07_Conditional_Bindings
     {
 
-        [Fact]
+        [Test]
         public void CanResolveBasedOnClassAttribute()
         {
             var kernel = new StandardKernel();
@@ -19,14 +20,14 @@ namespace NinjectExamples
             kernel.Bind<ICar>().To<Dunebuggy>();
 
 
-            kernel.Get<CityRoad>().Car.ShouldBeInstanceOf<Car>();
-            kernel.Get<CountryRoad>().Car.ShouldBeInstanceOf<Truck>();
-            kernel.Get<Beach>().Car.ShouldBeInstanceOf<Dunebuggy>();
+            Assert.That(kernel.Get<CityRoad>().Car, Is.InstanceOf<Car>());
+            Assert.That(kernel.Get<CountryRoad>().Car, Is.InstanceOf<Truck>());
+            Assert.That(kernel.Get<Beach>().Car, Is.InstanceOf<Dunebuggy>());
         }
 
 
 
-        [Fact]
+        [Test]
         public void CanResolveBasedOnMemberAttribute()
         {
             var kernel = new StandardKernel();
@@ -37,8 +38,8 @@ namespace NinjectExamples
       
 
             var garage = kernel.Get<Garage>();
-            garage.CityCar.ShouldBeInstanceOf<Car>();
-            garage.CountryCar.ShouldBeInstanceOf<Truck>();
+            Assert.That(garage.CityCar, Is.InstanceOf<Car>());
+            Assert.That(garage.CountryCar, Is.InstanceOf<Truck>());
 
         }
     }

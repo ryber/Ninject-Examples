@@ -1,16 +1,17 @@
 using System;
 using Ninject;
 using Ninject.Planning.Bindings;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 
 namespace NinjectExamples
 {
     //"https://github.com/ninject/ninject/wiki/Contextual-Binding"
+    [TestFixture]
     public class Chapter_09_ConstraintAttribute_Bindings
     {
-        [Fact]
+        [Test]
         public void CanUseContraintAttributes()
         {
             var kernel = new StandardKernel();
@@ -18,10 +19,10 @@ namespace NinjectExamples
             kernel.Bind<IWarrior>().To<Samurai>().WithMetadata("CanSwim", false);
             kernel.Bind<IWarrior>().To<SpecialNinja>().WithMetadata("CanSwim", true);
 
-            kernel.Get<AmphibiousAttack>().Warrior.ShouldBeInstanceOf<SpecialNinja>();
+            Assert.That(kernel.Get<AmphibiousAttack>().Warrior, Is.InstanceOf<SpecialNinja>());
         }
 
-        [Fact]
+        [Test]
         public void AmbiguousMappingWillThrowException()
         {
             var kernel = new StandardKernel();        

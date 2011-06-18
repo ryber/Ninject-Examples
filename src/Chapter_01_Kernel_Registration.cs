@@ -2,94 +2,94 @@ using System.Linq;
 using System.Reflection;
 using Ninject;
 using Ninject.Modules;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 
 namespace NinjectExamples
 {
     //"https://github.com/ninject/ninject/wiki/Modules-and-the-Kernel"
-
+    [TestFixture]
     public class Chapter_01_Kernel_Registration
     {
 
-        [Fact]
+        [Test]
         public void SingleBinding()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IVegetable>().To<Carrot>();
 
-            kernel.GetBindings(typeof (IVegetable)).Count().ShouldBe(1);
+            Assert.That(kernel.GetBindings(typeof (IVegetable)).Count(), Is.EqualTo(1));
         }
 
-        [Fact]
+        [Test]
         public void CanRemoveBinding()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IVegetable>().To<Carrot>();
             kernel.Unbind<IVegetable>();
-            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(0);
+            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(0));
         }
 
-        [Fact]
+        [Test]
         public void CanReplaceBinding()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IVegetable>().To<Carrot>();
             kernel.Rebind<IVegetable>().To<GreenBean>();
-            kernel.Get<IVegetable>().ShouldBeInstanceOf<GreenBean>();
+            Assert.That(kernel.Get<IVegetable>(), Is.InstanceOf<GreenBean>());
         }
 
-        [Fact]
+        [Test]
         public void RebindClearsAllBindingsForAType()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IVegetable>().To<Carrot>();
             kernel.Bind<IVegetable>().To<GreenBean>();
 
-            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(2);
+            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(2));
 
             kernel.Rebind<IVegetable>().To<Peas>();
 
-            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
+            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(1));
         }
 
 
-        [Fact]
+        [Test]
         public void ModuleBinding()
         {
             var kernel = new StandardKernel();
             kernel.Load(new VeggieModule());
 
-            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
+            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(1));
         }
 
-        [Fact]
+        [Test]
         public void CanGetBackRegisteredModules()
         {
             var kernel = new StandardKernel();
             var module = new VeggieModule();
             kernel.Load(module);
 
-            kernel.GetModules().ShouldContain(module);
+            Assert.That(kernel.GetModules(), Has.Member(module));
         }
 
-        [Fact]
+        [Test]
         public void AssemblyScanningByFileName()
         {
             var kernel = new StandardKernel();
             kernel.Load("NinjectExamples.dll");
 
-            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
+            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(1));
         }
 
-        [Fact]
+        [Test]
         public void AssemblyScanningByAssembly()
         {
             var kernel = new StandardKernel();
             kernel.Load(Assembly.GetExecutingAssembly());
 
-            kernel.GetBindings(typeof(IVegetable)).Count().ShouldBe(1);
+            Assert.That(kernel.GetBindings(typeof(IVegetable)).Count(), Is.EqualTo(1));
         }
 
         public interface IVegetable {}

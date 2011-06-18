@@ -1,52 +1,52 @@
 using Ninject;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 
 namespace NinjectExamples
 {
-
+    [TestFixture]
     public class Chapter_02_SimpleBindingResolution
     {
-        [Fact]
+        [Test]
         public void GetInterfaceImplimentation()
         {
             var kernel = new StandardKernel();
             kernel.Bind<IWeapon>().To<Sword>();
 
-            kernel.Get<IWeapon>().ShouldBeInstanceOf<Sword>();
+            Assert.That(kernel.Get<IWeapon>(), Is.InstanceOf<Sword>());
         }
 
-        [Fact]
+        [Test]
         public void GetAbstractImplimentation()
         {
             var kernel = new StandardKernel();
             kernel.Bind<HandWeapons>().To<Sword>();
 
-            kernel.Get<HandWeapons>().ShouldBeInstanceOf<Sword>();
+            Assert.That(kernel.Get<HandWeapons>(), Is.InstanceOf<Sword>());
         }
 
-        [Fact]
+        [Test]
         public void SelfBindingTypesDoNotNeedExplicitBindings()
         {
             var kernel = new StandardKernel();
-            kernel.Get<Sword>().ShouldBeInstanceOf<Sword>();
+            Assert.That(kernel.Get<Sword>(), Is.InstanceOf<Sword>());
         }
 
-        [Fact]
+        [Test]
         public void CanCreateExplicitSelfBinds()
         {
             var kernel = new StandardKernel();
             kernel.Bind<Sword>().ToSelf();
-            kernel.Get<Sword>().ShouldBeInstanceOf<Sword>();
+            Assert.That(kernel.Get<Sword>(), Is.InstanceOf<Sword>());
         }
 
-        [Fact]
+        [Test]
         public void CanBindValueTypesToConstants()
         {
             var kernel = new StandardKernel();
             kernel.Bind<string>().ToConstant("Hello Dojo");
-            kernel.Get<string>().ShouldBe("Hello Dojo");
+            Assert.That(kernel.Get<string>(), Is.EqualTo("Hello Dojo"));
         }
 
         public interface IWeapon{}  

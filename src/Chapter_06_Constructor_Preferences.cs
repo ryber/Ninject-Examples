@@ -1,52 +1,50 @@
 using System;
 using Ninject;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 
 namespace NinjectExamples
 {
-
+    [TestFixture]
     public class Chapter_06_Constructor_Preferences
     {
 
-        [Fact]
+        [Test]
         public void WillUseInjectAttributeFirst()
         {
             var kernel = new StandardKernel();
             kernel.Bind<TheOneRing>().ToSelf();
             kernel.Bind<TheDarkCrystal>().ToSelf();
 
-            kernel.Get<InjectAttributeFirst>().InjectAttributeWasUsed.ShouldBeTrue();
+            Assert.That(kernel.Get<InjectAttributeFirst>().InjectAttributeWasUsed, Is.True);
         }
 
-        [Fact]
+        [Test]
         public void MostComplexThatKernelHasBindingsForIsNext()
         {
             var kernel = new StandardKernel();
             kernel.Bind<TheOneRing>().ToSelf();
             kernel.Bind<TheDarkCrystal>().ToSelf();
 
-            kernel.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUsed.ShouldBeTrue();
+            Assert.That(kernel.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUsed, Is.True);
         }
 
-        [Fact(Skip="Currently Broken: Note that if the zero param constructor is physically located first in the class. This will pass.")]
+        [Test, Ignore("Currently Broken: Note that if the zero param constructor is physically located first in the class. This will pass.")]
         public void DefaultNoParamsIsNext()
         {
             var kernel = new StandardKernel();
-            kernel.Get<NoParamsIsNext>().NoParamCtorUsed.ShouldBeTrue();
+            Assert.That(kernel.Get<NoParamsIsNext>().NoParamCtorUsed, Is.True);
         }
 
-        [Fact(Skip="Currently Broken: see issue 35")]
+        [Test, Ignore("Currently Broken: see issue 35")]
         public void TwoInjectsOnDifferentContructorsWillResultInException()
         {
             var kernel = new StandardKernel();
 
             Assert.Throws<NotSupportedException>(
-                delegate{
-                             kernel.Get<TwoInjectedConstructorsThrows>();
-                         }
-            );
+                () => kernel.Get<TwoInjectedConstructorsThrows>()
+                );
             
         }
     }

@@ -1,15 +1,15 @@
 using System.Linq;
 using Ninject;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 
 namespace NinjectExamples
 {
-
+    [TestFixture]
     public class Chapter_05_Injection
     {
-        [Fact]
+        [Test]
         public void ConstructorInjection()
         {
             var kernel = new StandardKernel();
@@ -17,10 +17,10 @@ namespace NinjectExamples
 
             var luke = kernel.Get<Jedi>();
 
-            luke.Weapon.ShouldBeInstanceOf<Lightsaber>();
+            Assert.That(luke.Weapon, Is.InstanceOf<Lightsaber>());
         }
 
-        [Fact]
+        [Test]
         public void PropertyInjection()
         {
             var kernel = new StandardKernel();
@@ -28,10 +28,10 @@ namespace NinjectExamples
 
             var darth = kernel.Get<SithLord>();
 
-            darth.Weapon.ShouldBeInstanceOf<Lightsaber>();
+            Assert.That(darth.Weapon, Is.InstanceOf<Lightsaber>());
         }
 
-        [Fact]
+        [Test]
         public void MethodInjection()
         {
             var kernel = new StandardKernel();
@@ -39,10 +39,10 @@ namespace NinjectExamples
 
             var larry = kernel.Get<StormTrooper>();
 
-            larry.Weapons.ShouldBeInstanceOf<Blaster>();
+            Assert.That(larry.Weapons, Is.InstanceOf<Blaster>());
         }
 
-        [Fact]
+        [Test]
         public void CanResolveDependenciesOnExistingObject()
         {
             var kernel = new StandardKernel();
@@ -50,14 +50,14 @@ namespace NinjectExamples
 
             var darth = new SithLord();
 
-            darth.Weapon.ShouldBeNull();
+            Assert.That(darth.Weapon, Is.Null);
 
             kernel.Inject(darth);
 
-            darth.Weapon.ShouldBeInstanceOf<Lightsaber>();
+            Assert.That(darth.Weapon, Is.InstanceOf<Lightsaber>());
         }
 
-        [Fact] //"https://github.com/ninject/ninject/wiki/Multi-injection"
+        [Test] //"https://github.com/ninject/ninject/wiki/Multi-injection"
         public void CanGetAnArrayWhenMoreThanOneBindingExists()
         {
             var kernel = new StandardKernel();
@@ -67,11 +67,11 @@ namespace NinjectExamples
             var grievous = kernel.Get<Cyborg>();
 
             var weaponTypes = grievous.Weapons.Select(x => x.GetType()).ToList();
-            weaponTypes.ShouldContain(typeof(Lightsaber));
-            weaponTypes.ShouldContain(typeof(Blaster));
+            Assert.That(weaponTypes, Has.Member(typeof(Lightsaber)));
+            Assert.That(weaponTypes, Has.Member(typeof(Blaster)));
         }
 
-        [Fact]
+        [Test]
         public void MoreThanOneBindingWillThrowActivationException()
         {
             var kernel = new StandardKernel();

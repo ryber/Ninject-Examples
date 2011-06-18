@@ -1,19 +1,20 @@
 using System;
 using Ninject;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 
 namespace NinjectExamples
 {
+    [TestFixture]
     public class Chapter_10_Settings
     {
-        [Fact]
+        [Test]
         public void CanChangeTheInjectAttribute()
         {
             var settings = new NinjectSettings();
 
-            settings.InjectAttribute.ShouldBe(typeof(InjectAttribute));
+            Assert.That(settings.InjectAttribute.Name, Is.EqualTo("InjectAttribute"));
  
 
             settings.InjectAttribute = typeof (Weaponize);
@@ -21,32 +22,32 @@ namespace NinjectExamples
 
             var murphy = kernel.Get<RoboCop>();
 
-            murphy.LeftHand.ShouldBeNull();
-            murphy.RightHand.ShouldNotBeNull();
+            Assert.That(murphy.LeftHand, Is.Null);
+            Assert.That(murphy.RightHand, Is.Not.Null);
         }
 
-        [Fact]
+        [Test]
         public void CanAllowInjectionIntoNonPublicProperties()
         {
             var kernel = new StandardKernel();
             
-            kernel.Get<RoboCop>().GetGunFromLeg().ShouldBeNull();
+            Assert.That(kernel.Get<RoboCop>().GetGunFromLeg(), Is.Null);
 
             kernel = new StandardKernel(new NinjectSettings {InjectNonPublic = true});
 
-            kernel.Get<RoboCop>().GetGunFromLeg().ShouldNotBeNull();
+            Assert.That(kernel.Get<RoboCop>().GetGunFromLeg(), Is.Not.Null);
         }
 
-        [Fact]
+        [Test]
         public void CanAllowInjectionIntoPrivateBaseMembers()
         {
             var kernel = new StandardKernel(new NinjectSettings { InjectNonPublic = true });
 
-            kernel.Get<RoboCop>().GetGunPrototype().ShouldBeNull();
+            Assert.That(kernel.Get<RoboCop>().GetGunPrototype(), Is.Null);
 
             kernel = new StandardKernel(new NinjectSettings { InjectNonPublic = true, InjectParentPrivateProperties = true });
 
-            kernel.Get<RoboCop>().GetGunPrototype().ShouldNotBeNull();
+            Assert.That(kernel.Get<RoboCop>().GetGunPrototype(), Is.Not.Null);
         }
 
 

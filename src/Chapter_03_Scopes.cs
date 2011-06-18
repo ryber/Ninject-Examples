@@ -6,16 +6,16 @@ using Ninject;
 using Ninject.Activation.Caching;
 using Ninject.Infrastructure.Disposal;
 using Ninject.Web.Common;
-using Xunit;
-using Xunit.Should;
+using NUnit.Core;
+using NUnit.Framework;
 
 
 namespace NinjectExamples
 {
-  
+    [TestFixture]
     public class Chapter_03_Scopes
     {
-        [Fact]
+        [Test]
         public void TransientScopeGivesYouANewInstanceEveryTime()
         {
             var kernel = new StandardKernel();
@@ -25,11 +25,11 @@ namespace NinjectExamples
             var tool1 = kernel.Get<ITool>();
             var tool2 = kernel.Get<ITool>();
 
-            tool1.ShouldNotBe(tool2);
+            Assert.That(tool1, Is.Not.EqualTo(tool2));
 
         }
 
-        [Fact]
+        [Test]
         public void SingleTonScopeGivesYouTheSameInstranceEveryTime()
         {
             var kernel = new StandardKernel();
@@ -38,10 +38,10 @@ namespace NinjectExamples
             var tool1 = kernel.Get<ITool>();
             var tool2 = kernel.Get<ITool>();
 
-            tool1.ShouldBe(tool2);
+            Assert.That(tool1, Is.EqualTo(tool2));
         }
 
-        [Fact]
+        [Test]
         public void ThreadScopeReturnsTheSameInstanceForAThread()
         {
 
@@ -58,11 +58,11 @@ namespace NinjectExamples
             thread.Start();
             thread.Join();
 
-            tool1.ShouldBe(tool2);
-            tool1.ShouldNotBe(tool3);
+            Assert.That(tool1, Is.EqualTo(tool2));
+            Assert.That(tool1, Is.Not.EqualTo(tool3));
         }
 
-        [Fact]
+        [Test]
         public void RequestScopeReturnsTheSameInstanceForAHttpRequest()
         {
             StartNewHttpRequest();
@@ -74,7 +74,7 @@ namespace NinjectExamples
             var tool1 = kernel.Get<ITool>();
             var tool2 = kernel.Get<ITool>();
 
-            tool1.ShouldBe(tool2);
+            Assert.That(tool1, Is.EqualTo(tool2));
 
 
             StartNewHttpRequest();
@@ -84,10 +84,10 @@ namespace NinjectExamples
 
             var tool3 = kernel.Get<ITool>();
 
-            tool1.ShouldNotBe(tool3);
+            Assert.That(tool1, Is.Not.EqualTo(tool3));
         }
 
-        [Fact]
+        [Test]
         public void InstancesAreDisposedWhenRequestEndsAndCacheIsPruned()
         {
             var settings = new NinjectSettings { CachePruningInterval = TimeSpan.MaxValue };
@@ -100,8 +100,8 @@ namespace NinjectExamples
 
             var instance = kernel.Get<ITool>();
 
-            instance.ShouldNotBeNull();
-            instance.ShouldBeInstanceOf<Hammer>();
+            Assert.That(instance, Is.Not.Null);
+            Assert.That(instance, Is.InstanceOf<Hammer>());
 
             StartNewHttpRequest();
 
@@ -110,11 +110,11 @@ namespace NinjectExamples
 
             cache.Prune();
 
-            instance.IsDisposed.ShouldBeTrue();
+            Assert.That(instance.IsDisposed, Is.True);
         }
 
 
-        [Fact]
+        [Test]
         public void InstancesAreDisposedViaOnePerRequestModule()
         {
             var settings = new NinjectSettings { CachePruningInterval = TimeSpan.MaxValue };
@@ -125,17 +125,17 @@ namespace NinjectExamples
 
             var instance = kernel.Get<ITool>();
 
-            instance.ShouldNotBeNull();
-            instance.ShouldBeInstanceOf<Hammer>();
+            Assert.That(instance, Is.Not.Null);
+            Assert.That(instance, Is.InstanceOf<Hammer>());
 
             var opr = new OnePerRequestModule();
             opr.DeactivateInstancesForCurrentHttpRequest();
 
-            instance.IsDisposed.ShouldBeTrue();
+            Assert.That(instance.IsDisposed, Is.True);
         
         }
 
-        [Fact]
+        [Test]
         public void WeCanEvenDefineOurOwnScope()
         {
             var kernel = new StandardKernel();
@@ -156,8 +156,8 @@ namespace NinjectExamples
 
             var tool3 = kernel.Get<ITool>();
 
-            tool1.ShouldBe(tool2);
-            tool1.ShouldNotBe(tool3);
+            Assert.That(tool1, Is.EqualTo(tool2));
+            Assert.That(tool1, Is.Not.EqualTo(tool3));
         }
 
         private static void StartNewHttpRequest()
