@@ -5,9 +5,9 @@ using System.Web;
 using Ninject;
 using Ninject.Activation.Caching;
 using Ninject.Infrastructure.Disposal;
-using Ninject.Web.Common;
 using NUnit.Core;
 using NUnit.Framework;
+using Ninject.Web.Common;
 
 
 namespace NinjectExamples
@@ -128,8 +128,8 @@ namespace NinjectExamples
             Assert.That(instance, Is.Not.Null);
             Assert.That(instance, Is.InstanceOf<Hammer>());
 
-            var opr = new OnePerRequestModule();
-            opr.DeactivateInstancesForCurrentHttpRequest();
+          //  var opr = new OnePerRequestModule();
+          //  opr.DeactivateInstancesForCurrentHttpRequest();
 
             Assert.That(instance.IsDisposed, Is.True);
         
