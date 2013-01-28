@@ -30,19 +30,19 @@ namespace NinjectExamples
             Assert.That(kernel.Get<MostComplexThatCanbeResolvedNext>().MostComplexWasUsed, Is.True);
         }
 
-        [Test, Ignore("Currently Broken: Note that if the zero param constructor is physically located first in the class. This will pass.")]
+        [Test]
         public void DefaultNoParamsIsNext()
         {
             var kernel = new StandardKernel();
             Assert.That(kernel.Get<NoParamsIsNext>().NoParamCtorUsed, Is.True);
         }
 
-        [Test, Ignore("Currently Broken: see issue 35")]
+        [Test]
         public void TwoInjectsOnDifferentContructorsWillResultInException()
         {
             var kernel = new StandardKernel();
 
-            Assert.Throws<NotSupportedException>(
+            Assert.Throws<ActivationException>(
                 () => kernel.Get<TwoInjectedConstructorsThrows>()
                 );
             

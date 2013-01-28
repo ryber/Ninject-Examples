@@ -3,10 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Web;
 using Ninject;
-using Ninject.Activation.Caching;
 using Ninject.Infrastructure.Disposal;
-using Ninject.Web.Common;
-using NUnit.Core;
 using NUnit.Framework;
 
 
@@ -60,79 +57,6 @@ namespace NinjectExamples
 
             Assert.That(tool1, Is.EqualTo(tool2));
             Assert.That(tool1, Is.Not.EqualTo(tool3));
-        }
-
-        [Test]
-        public void RequestScopeReturnsTheSameInstanceForAHttpRequest()
-        {
-            StartNewHttpRequest();
-
-            var settings = new NinjectSettings { CachePruningInterval = TimeSpan.MaxValue };
-            var kernel = new StandardKernel(settings);
-            kernel.Bind<ITool>().To<Hammer>().InRequestScope();
-
-            var tool1 = kernel.Get<ITool>();
-            var tool2 = kernel.Get<ITool>();
-
-            Assert.That(tool1, Is.EqualTo(tool2));
-
-
-            StartNewHttpRequest();
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            var tool3 = kernel.Get<ITool>();
-
-            Assert.That(tool1, Is.Not.EqualTo(tool3));
-        }
-
-        [Test]
-        public void InstancesAreDisposedWhenRequestEndsAndCacheIsPruned()
-        {
-            var settings = new NinjectSettings { CachePruningInterval = TimeSpan.MaxValue };
-            var kernel = new StandardKernel(settings);
-
-            kernel.Bind<ITool>().To<Hammer>().InRequestScope();
-            var cache = kernel.Components.Get<ICache>();
-
-            StartNewHttpRequest();
-
-            var instance = kernel.Get<ITool>();
-
-            Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.InstanceOf<Hammer>());
-
-            StartNewHttpRequest();
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            cache.Prune();
-
-            Assert.That(instance.IsDisposed, Is.True);
-        }
-
-
-        [Test]
-        public void InstancesAreDisposedViaOnePerRequestModule()
-        {
-            var settings = new NinjectSettings { CachePruningInterval = TimeSpan.MaxValue };
-            var kernel = new StandardKernel(settings);
-            kernel.Bind<ITool>().To<Hammer>().InRequestScope();
-
-            StartNewHttpRequest();
-
-            var instance = kernel.Get<ITool>();
-
-            Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.InstanceOf<Hammer>());
-
-            var opr = new OnePerRequestModule();
-            opr.DeactivateInstancesForCurrentHttpRequest();
-
-            Assert.That(instance.IsDisposed, Is.True);
-        
         }
 
         [Test]
