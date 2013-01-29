@@ -1,7 +1,8 @@
 using Ninject;
-using Ninject.Parameters;
+
 using NUnit.Core;
 using NUnit.Framework;
+using Ninject.Parameters;
 
 namespace NinjectExamples
 {

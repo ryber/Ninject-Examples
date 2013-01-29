@@ -4,6 +4,7 @@ using System.Threading;
 using System.Web;
 using Ninject;
 using Ninject.Infrastructure.Disposal;
+using NUnit.Core;
 using NUnit.Framework;
 
 

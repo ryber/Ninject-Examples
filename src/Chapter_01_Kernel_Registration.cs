@@ -1,9 +1,10 @@
 using System.Linq;
 using System.Reflection;
 using Ninject;
-using Ninject.Modules;
+
 using NUnit.Core;
 using NUnit.Framework;
+using Ninject.Modules;
 
 
 namespace NinjectExamples
